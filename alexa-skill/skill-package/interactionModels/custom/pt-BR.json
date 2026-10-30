@@ -1,0 +1,232 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "sintoniza",
+      "intents": [
+        { "name": "AMAZON.CancelIntent", "samples": [] },
+        { "name": "AMAZON.HelpIntent", "samples": [] },
+        { "name": "AMAZON.StopIntent", "samples": [] },
+        { "name": "AMAZON.NavigateHomeIntent", "samples": [] },
+        { "name": "AMAZON.FallbackIntent", "samples": [] },
+        {
+          "name": "PairIntent",
+          "slots": [{ "name": "code", "type": "AMAZON.NUMBER" }],
+          "samples": [
+            "parear",
+            "parear a tv",
+            "conectar a tv",
+            "parear com o código {code}",
+            "parear o código {code}",
+            "parear código {code}",
+            "conectar com o código {code}",
+            "o código é {code}",
+            "código {code}",
+            "{code}"
+          ]
+        },
+        {
+          "name": "UnpairIntent",
+          "samples": [
+            "desparear",
+            "desparear a tv",
+            "desconectar a tv",
+            "esquecer a tv",
+            "esquecer minha tv"
+          ]
+        },
+        {
+          "name": "OpenAppIntent",
+          "slots": [{ "name": "app", "type": "APP_NAME" }],
+          "samples": [
+            "abrir {app}",
+            "abrir o {app}",
+            "abrir a {app}",
+            "abre {app}",
+            "abre o {app}",
+            "abre a {app}",
+            "abrir o aplicativo {app}",
+            "abrir o app {app}",
+            "colocar {app}",
+            "colocar o {app}",
+            "colocar a {app}",
+            "coloca {app}",
+            "coloca o {app}",
+            "coloca a {app}",
+            "bota {app}",
+            "bota o {app}",
+            "bota a {app}",
+            "ligar {app}",
+            "ligar o {app}",
+            "ligar a {app}",
+            "iniciar {app}",
+            "iniciar o {app}",
+            "iniciar a {app}",
+            "ir para o {app}",
+            "ir para a {app}"
+          ]
+        },
+        {
+          "name": "YouTubeSearchIntent",
+          "slots": [{ "name": "query", "type": "AMAZON.SearchQuery" }],
+          "samples": [
+            "procurar {query} no youtube",
+            "procura {query} no youtube",
+            "pesquisar {query} no youtube",
+            "pesquisa {query} no youtube",
+            "buscar {query} no youtube",
+            "busca {query} no youtube",
+            "tocar {query} no youtube",
+            "toca {query} no youtube",
+            "colocar {query} no youtube",
+            "coloca {query} no youtube",
+            "bota {query} no youtube"
+          ]
+        },
+        {
+          "name": "PauseIntent",
+          "samples": ["pausar", "pausa", "pausar o vídeo", "pausa o vídeo", "dar pausa", "parar o vídeo"]
+        },
+        {
+          "name": "ResumeIntent",
+          "samples": ["continuar", "continua", "dar play", "dá play", "play", "despausar", "voltar a tocar", "continuar o vídeo"]
+        },
+        {
+          "name": "NextIntent",
+          "samples": ["próximo", "próxima", "pular", "pula", "próximo episódio", "próximo vídeo", "próxima música"]
+        },
+        {
+          "name": "PreviousIntent",
+          "samples": ["anterior", "episódio anterior", "vídeo anterior", "música anterior"]
+        },
+        {
+          "name": "FastForwardIntent",
+          "samples": ["avançar", "avança", "adiantar", "adianta", "avançar o vídeo", "adiantar o vídeo"]
+        },
+        {
+          "name": "RewindIntent",
+          "samples": ["retroceder", "retrocede", "voltar um pouco", "volta um pouco", "voltar o vídeo", "volta o vídeo"]
+        },
+        {
+          "name": "VolumeUpIntent",
+          "slots": [{ "name": "steps", "type": "AMAZON.NUMBER" }],
+          "samples": [
+            "aumentar o volume",
+            "aumenta o volume",
+            "aumentar o som",
+            "aumenta o som",
+            "mais alto",
+            "aumentar o volume em {steps}",
+            "aumenta o volume em {steps}",
+            "aumentar {steps} de volume",
+            "aumenta {steps} de volume"
+          ]
+        },
+        {
+          "name": "VolumeDownIntent",
+          "slots": [{ "name": "steps", "type": "AMAZON.NUMBER" }],
+          "samples": [
+            "abaixar o volume",
+            "abaixa o volume",
+            "diminuir o volume",
+            "diminui o volume",
+            "abaixar o som",
+            "abaixa o som",
+            "mais baixo",
+            "abaixar o volume em {steps}",
+            "abaixa o volume em {steps}",
+            "diminuir o volume em {steps}",
+            "diminui o volume em {steps}"
+          ]
+        },
+        {
+          "name": "SetVolumeIntent",
+          "slots": [{ "name": "level", "type": "AMAZON.NUMBER" }],
+          "samples": [
+            "volume {level}",
+            "volume no {level}",
+            "volume em {level}",
+            "colocar o volume em {level}",
+            "coloca o volume em {level}",
+            "colocar o volume no {level}",
+            "coloca o volume no {level}",
+            "deixar o volume em {level}",
+            "deixa o volume em {level}",
+            "ajustar o volume para {level}",
+            "ajusta o volume para {level}"
+          ]
+        },
+        {
+          "name": "MuteIntent",
+          "samples": ["mudo", "silenciar", "silencia", "tirar o som", "tira o som", "ficar mudo", "colocar no mudo", "coloca no mudo"]
+        },
+        {
+          "name": "UnmuteIntent",
+          "samples": ["tirar o mudo", "tira o mudo", "voltar o som", "volta o som", "ativar o som", "ativa o som", "desmutar"]
+        },
+        {
+          "name": "NavigateIntent",
+          "slots": [
+            { "name": "direction", "type": "NAV_KEY" },
+            { "name": "times", "type": "AMAZON.NUMBER" }
+          ],
+          "samples": [
+            "{direction}",
+            "aperta {direction}",
+            "apertar {direction}",
+            "aperta o {direction}",
+            "apertar o {direction}",
+            "vai {direction}",
+            "ir {direction}",
+            "vai para {direction}",
+            "ir para {direction}",
+            "{direction} {times} vezes",
+            "aperta {direction} {times} vezes",
+            "{times} vezes {direction}",
+            "{times} vezes para {direction}",
+            "vai {times} vezes para {direction}"
+          ]
+        }
+      ],
+      "types": [
+        {
+          "name": "APP_NAME",
+          "values": [
+            { "id": "youtube", "name": { "value": "youtube", "synonyms": ["you tube", "iutube", "iutubi"] } },
+            { "id": "youtube_kids", "name": { "value": "youtube kids", "synonyms": ["youtube infantil"] } },
+            { "id": "youtube_music", "name": { "value": "youtube music", "synonyms": ["youtube música"] } },
+            { "id": "netflix", "name": { "value": "netflix", "synonyms": ["netflics", "net flix"] } },
+            { "id": "prime_video", "name": { "value": "prime video", "synonyms": ["amazon prime", "amazon prime video", "prime", "amazon vídeo"] } },
+            { "id": "disney_plus", "name": { "value": "disney plus", "synonyms": ["disney", "disney mais", "disney +"] } },
+            { "id": "max", "name": { "value": "max", "synonyms": ["hbo max", "hbo", "agá bê ó"] } },
+            { "id": "globoplay", "name": { "value": "globoplay", "synonyms": ["globo play", "globo"] } },
+            { "id": "paramount_plus", "name": { "value": "paramount plus", "synonyms": ["paramount", "paramount mais"] } },
+            { "id": "apple_tv", "name": { "value": "apple tv", "synonyms": ["apple tv plus", "apple"] } },
+            { "id": "spotify", "name": { "value": "spotify", "synonyms": ["espotifai", "spotfy"] } },
+            { "id": "deezer", "name": { "value": "deezer", "synonyms": ["dizer", "diizer"] } },
+            { "id": "twitch", "name": { "value": "twitch", "synonyms": ["tuitch"] } },
+            { "id": "pluto_tv", "name": { "value": "pluto tv", "synonyms": ["pluto"] } },
+            { "id": "crunchyroll", "name": { "value": "crunchyroll", "synonyms": ["crunchy roll", "crunchy"] } },
+            { "id": "plex", "name": { "value": "plex" } },
+            { "id": "kodi", "name": { "value": "kodi" } },
+            { "id": "vlc", "name": { "value": "vlc", "synonyms": ["vê éle cê"] } },
+            { "id": "stremio", "name": { "value": "stremio" } },
+            { "id": "play_store", "name": { "value": "play store", "synonyms": ["loja", "google play", "loja de aplicativos"] } },
+            { "id": "settings", "name": { "value": "configurações", "synonyms": ["ajustes", "configuração"] } }
+          ]
+        },
+        {
+          "name": "NAV_KEY",
+          "values": [
+            { "id": "up", "name": { "value": "cima", "synonyms": ["pra cima", "para cima", "acima", "sobe", "subir"] } },
+            { "id": "down", "name": { "value": "baixo", "synonyms": ["pra baixo", "para baixo", "abaixo", "desce", "descer"] } },
+            { "id": "left", "name": { "value": "esquerda", "synonyms": ["pra esquerda", "para a esquerda", "pra a esquerda"] } },
+            { "id": "right", "name": { "value": "direita", "synonyms": ["pra direita", "para a direita", "pra a direita"] } },
+            { "id": "ok", "name": { "value": "ok", "synonyms": ["okay", "selecionar", "seleciona", "confirmar", "confirma", "enter", "entrar", "clicar", "clica"] } },
+            { "id": "back", "name": { "value": "voltar", "synonyms": ["volta", "retornar", "retorna", "botão voltar"] } },
+            { "id": "home", "name": { "value": "início", "synonyms": ["tela inicial", "home", "menu inicial", "menu principal"] } }
+          ]
+        }
+      ]
+    }
+  }
+}

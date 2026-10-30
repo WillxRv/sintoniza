@@ -1,0 +1,19 @@
+{
+  "name": "sintoniza-skill",
+  "version": "0.1.0",
+  "description": "Skill Alexa-hosted do Sintoniza: envia comandos para o app Android TV via Firebase Cloud Messaging.",
+  "main": "index.js",
+  "license": "AGPL-3.0-or-later",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.js\""
+  },
+  "dependencies": {
+    "ask-sdk-core": "^2.14.0",
+    "ask-sdk-model": "^1.86.0",
+    "firebase-admin": "^12.7.0"
+  }
+}

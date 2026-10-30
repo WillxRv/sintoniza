@@ -1,0 +1,43 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "pt-BR": {
+          "name": "Sintoniza",
+          "summary": "Controle sua Android TV ou Google TV pela Alexa: abra apps, pause, ajuste o volume e navegue.",
+          "description": "O Sintoniza conecta a Alexa à sua Android TV ou Google TV (como Mi TV Stick e Chromecast).\n\nComo começar:\n1. Instale o app Sintoniza na sua TV.\n2. Abra o app e anote o código de 6 dígitos.\n3. Diga: \"Alexa, pede pro Sintoniza parear com o código\" e fale o código.\n\nDepois é só pedir: abrir o YouTube, a Netflix ou o Globoplay, pausar, continuar, aumentar o volume, procurar vídeos no YouTube e navegar pelos menus.\n\nProjeto open source (AGPL-3.0).",
+          "examplePhrases": [
+            "Alexa, abrir sintoniza",
+            "Alexa, pede pro sintoniza abrir o youtube",
+            "Alexa, pede pro sintoniza pausar"
+          ],
+          "keywords": ["tv", "android tv", "google tv", "controle remoto", "youtube", "netflix"],
+          "smallIconUri": "",
+          "largeIconUri": ""
+        }
+      },
+      "isAvailableWorldwide": false,
+      "distributionCountries": ["BR"],
+      "testingInstructions": "Requer o app Sintoniza instalado em um dispositivo Android TV. Sem um dispositivo pareado, a skill explica como parear e não envia comandos.",
+      "category": "SMART_HOME",
+      "distributionMode": "PUBLIC"
+    },
+    "apis": {
+      "custom": {}
+    },
+    "manifestVersion": "1.0",
+    "privacyAndCompliance": {
+      "allowsPurchases": false,
+      "usesPersonalInfo": false,
+      "isChildDirected": false,
+      "isExportCompliant": true,
+      "containsAds": false,
+      "locales": {
+        "pt-BR": {
+          "privacyPolicyUrl": "",
+          "termsOfUseUrl": ""
+        }
+      }
+    }
+  }
+}

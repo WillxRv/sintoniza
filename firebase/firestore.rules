@@ -1,0 +1,52 @@
+rules_version = '2';
+
+// Modelo de dados (ver docs/ARQUITETURA.md):
+//
+//   devices/{uid}        Escrito pelo app da TV (login anônimo). uid = auth.uid da TV.
+//                        Campos do app: fcmToken, model, appVersion, updatedAt
+//                        Campos da skill (Admin SDK): pairedAt
+//   pairingCodes/{code}  Criado pelo app ao mostrar o código; lido e apagado pela skill.
+//   links/{userHash}     Alexa userId (sha256) -> uid da TV. Só a skill (Admin SDK) acessa.
+//
+// O Admin SDK usado pela skill ignora estas regras; elas valem para o app.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function deviceFields() {
+      return ['fcmToken', 'model', 'appVersion', 'updatedAt'];
+    }
+
+    match /devices/{uid} {
+      allow read: if isOwner(uid);
+      allow create: if isOwner(uid)
+        && request.resource.data.keys().hasOnly(deviceFields())
+        && request.resource.data.fcmToken is string;
+      allow update: if isOwner(uid)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(deviceFields());
+      allow delete: if isOwner(uid);
+    }
+
+    match /pairingCodes/{code} {
+      // Criar sobre um código existente conta como "update" e é negado,
+      // então colisões fazem o app tentar outro código.
+      allow create: if signedIn()
+        && code.matches('^[1-9][0-9]{5}$')
+        && request.resource.data.keys().hasOnly(['uid', 'createdAt'])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.createdAt == request.time;
+      allow delete: if signedIn() && resource.data.uid == request.auth.uid;
+      allow read, update: if false;
+    }
+
+    // links/* e qualquer outra coleção: acesso negado para clientes.
+  }
+}

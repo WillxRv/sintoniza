@@ -1,0 +1,13 @@
+# Copie para firebase.properties e preencha com os dados do seu projeto Firebase
+# (Console do Firebase > Configurações do projeto > Seus apps > app Android).
+#
+# Estes valores NÃO são segredos: qualquer APK publicado os expõe.
+# A segurança vem das regras do Firestore (firebase/firestore.rules).
+#
+# Sem este arquivo o app compila, mas mostra "servidor não configurado"
+# até receber uma configuração em tempo de execução (ver docs/AUTO-HOSPEDAGEM.md).
+
+firebase.projectId=meu-projeto
+firebase.applicationId=1:000000000000:android:0000000000000000000000
+firebase.apiKey=AIzaSy...
+firebase.gcmSenderId=000000000000

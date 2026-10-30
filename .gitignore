@@ -1,0 +1,30 @@
+# Segredos — nunca versionar
+firebase-service-account.json
+*.keystore
+*.jks
+
+# Node
+node_modules/
+
+# Android / Gradle
+.gradle/
+build/
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+
+# Firebase CLI
+.firebase/
+firebase-debug.log
+
+# SO
+.DS_Store
+Thumbs.db
