@@ -26,6 +26,11 @@ Você vai precisar de:
 5. **Adicione um app Android** (ícone do Android na página do projeto), com o pacote `app.sintoniza` (ou o seu, se mudou). Não é preciso baixar o `google-services.json`: anote os valores da tela de configuração ou de **Configurações do projeto → Seus apps**.
 6. **Gere a chave do backend:** **Configurações do projeto → Contas de serviço → Gerar nova chave privada.** Isso baixa um JSON.
    > ⚠️ **Esse arquivo é o único segredo do projeto.** Quem tiver ele consegue mandar comandos para qualquer TV da sua instância. Nunca coloque no Git (o `.gitignore` já bloqueia `firebase-service-account.json`).
+7. **Dê permissões à conta de serviço.** Em projetos recentes, a conta `firebase-adminsdk-fbsvc@SEU_PROJETO.iam.gserviceaccount.com` pode vir sem acesso, e a skill falha com `PERMISSION_DENIED` / `messaging/mismatched-credential`. Para corrigir:
+   1. Abra o IAM do projeto no Google Cloud: `https://console.cloud.google.com/iam-admin/iam?project=SEU_PROJETO`.
+   2. Clique no lápis ao lado da conta `firebase-adminsdk-fbsvc`. Se ela não aparecer na lista, use **Conceder acesso** e cole o e-mail dela.
+   3. Adicione os papéis **Usuário do Cloud Datastore** (`roles/datastore.user`) e **Administrador da API Firebase Cloud Messaging** (`roles/firebasecloudmessaging.admin`).
+   4. Salve. A mudança pode levar alguns minutos para valer.
 
 ## 2. App Android TV
 
@@ -38,7 +43,7 @@ Você vai precisar de:
    | `firebase.apiKey` | Chave de API da Web |
    | `firebase.gcmSenderId` | Código do remetente / número do projeto |
 
-   Esses valores **não são segredo** (qualquer APK publicado os expõe). Na instância oficial, este arquivo pode ir para o Git.
+   Esses valores **não são segredo** (qualquer APK publicado os expõe), mas o arquivo fica fora do Git (`.gitignore`): cada instância usa o seu.
 2. Abra a pasta `android-app/` no Android Studio e espere o Gradle sincronizar.
 3. Para gerar o APK: **Build → Build App Bundle(s) / APK(s) → Build APK(s)**.
 4. **Instale na TV** (com a depuração USB ligada, veja [COMANDOS.md](COMANDOS.md#ativando-o-controle-avançado-uma-vez-só)). Primeiro conecte ao IP da TV:
