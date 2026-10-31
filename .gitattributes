@@ -1,0 +1,9 @@
+* text=auto
+
+# Scripts de shell precisam de LF em qualquer sistema; os .bat, de CRLF.
+gradlew text eol=lf
+*.sh text eol=lf
+*.bat text eol=crlf
+
+*.jar binary
+*.png binary
