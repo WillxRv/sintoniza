@@ -2,6 +2,7 @@
 firebase-service-account.json
 *.keystore
 *.jks
+keystore.properties
 
 # Config do Firebase da instância (não é segredo, mas fica fora do repositório;
 # cada um usa a sua a partir de android-app/firebase.properties.example)
