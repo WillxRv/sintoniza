@@ -45,7 +45,10 @@ Você vai precisar de:
 
    Esses valores **não são segredo** (qualquer APK publicado os expõe), mas o arquivo fica fora do Git (`.gitignore`): cada instância usa o seu.
 2. Abra a pasta `android-app/` no Android Studio e espere o Gradle sincronizar.
-3. Para gerar o APK: **Build → Build App Bundle(s) / APK(s) → Build APK(s)**.
+3. Para gerar o APK: **Build → Build App Bundle(s) / APK(s) → Build APK(s)**. Pela linha de comando, use o Java que vem com o Android Studio (`JAVA_HOME` apontando para a pasta `jbr` dele) e rode, dentro de `android-app/`:
+   ```bash
+   ./gradlew assembleDebug
+   ```
 4. **Instale na TV** (com a depuração USB ligada, veja [COMANDOS.md](COMANDOS.md#ativando-o-controle-avançado-uma-vez-só)). Primeiro conecte ao IP da TV:
    ```bash
    adb connect IP_DA_TV:5555
