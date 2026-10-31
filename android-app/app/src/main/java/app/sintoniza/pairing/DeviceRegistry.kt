@@ -11,6 +11,8 @@ import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.tasks.await
 import java.security.SecureRandom
 import java.util.Date
@@ -26,7 +28,14 @@ class DeviceRegistry(
 ) {
     private val random = SecureRandom()
 
-    suspend fun uid(): String = auth.currentUser?.uid ?: auth.signInAnonymously().await().user!!.uid
+    /**
+     * Na primeira abertura a tela e o serviço de push (onNewToken) chegam aqui juntos.
+     * Sem a trava, cada um cria um usuário anônimo e a gravação de um sai com o token
+     * do outro, o que as regras negam.
+     */
+    suspend fun uid(): String = auth.currentUser?.uid ?: signInLock.withLock {
+        auth.currentUser?.uid ?: auth.signInAnonymously().await().user!!.uid
+    }
 
     /** Publica o token FCM atual para a skill conseguir mandar comandos. */
     suspend fun register(token: String? = null) {
@@ -86,5 +95,8 @@ class DeviceRegistry(
 
     private companion object {
         const val MAX_CODE_ATTEMPTS = 5
+
+        // Compartilhada entre instâncias: tela e serviço rodam no mesmo processo.
+        val signInLock = Mutex()
     }
 }

@@ -10,6 +10,7 @@ import app.sintoniza.config.ServerConfig
 import app.sintoniza.config.ServerConfigStore
 import app.sintoniza.messaging.LastCommand
 import app.sintoniza.pairing.DeviceRegistry
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -72,6 +73,8 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                         codeJob == null -> newCode()
                     }
                 }
+            } catch (e: CancellationException) {
+                throw e // tela fechou: não é erro
             } catch (e: Exception) {
                 Log.e(TAG, "Falha ao conectar ao Firebase", e)
                 _state.update { it.copy(loading = false, error = "Não foi possível conectar ao servidor: ${e.message}") }
@@ -99,6 +102,8 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                     val code = registry.newPairingCode()
                     _state.update { it.copy(pairingCode = code, error = null) }
                     previous?.let { registry.deletePairingCode(it) }
+                } catch (e: CancellationException) {
+                    throw e
                 } catch (e: Exception) {
                     Log.e(TAG, "Falha ao gerar código", e)
                     _state.update { it.copy(error = "Não foi possível gerar o código: ${e.message}") }
