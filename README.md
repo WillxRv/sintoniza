@@ -49,7 +49,11 @@ Ligar/desligar a TV **não** está no escopo (depende de HDMI-CEC ou infravermel
 ## Usar
 
 - **Usuário final:** [docs/INSTALACAO.md](docs/INSTALACAO.md)
-- **Hospedar a sua própria instância / publicar:** [docs/AUTO-HOSPEDAGEM.md](docs/AUTO-HOSPEDAGEM.md)
+- **Hospedar a sua própria instância:** [docs/AUTO-HOSPEDAGEM.md](docs/AUTO-HOSPEDAGEM.md)
+- **Publicar (APK, skill, loja):** [docs/PUBLICACAO.md](docs/PUBLICACAO.md)
+- **Privacidade:** [docs/privacidade.md](docs/privacidade.md)
+
+**Baixar o app:** [sintoniza.apk (versão mais recente)](https://github.com/WillxRv/sintoniza/releases/latest/download/sintoniza.apk)
 
 ## Licença
 

@@ -79,7 +79,7 @@ A TV pede confirmação antes de trocar. Para voltar ao oficial, use o botão **
    - **Template:** Start from scratch
 2. **Modelo de interação:** na aba **Build**, vá em **Interaction Model → JSON Editor**, cole o conteúdo de [`alexa-skill/skill-package/interactionModels/custom/pt-BR.json`](../alexa-skill/skill-package/interactionModels/custom/pt-BR.json), clique em **Save** e depois em **Build skill**.
    - Se for um fork, troque `"invocationName": "sintoniza"` pelo seu.
-3. **Código:** na aba **Code**, dentro de `lambda/`:
+3. **Código:** o jeito mais rápido é gerar o zip com `.\alexa-skill\pack.ps1` (PowerShell, na raiz do repositório) e usar **Code → Import Code**, marcando todos os arquivos. Ou, manualmente, na aba **Code**, dentro de `lambda/`:
    - substitua `index.js` e `package.json` pelos deste repositório;
    - crie a pasta `src/` com os arquivos de [`alexa-skill/lambda/src/`](../alexa-skill/lambda/src);
    - crie `firebase-service-account.json` e cole o JSON baixado no passo 1.6;

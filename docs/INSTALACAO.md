@@ -8,7 +8,10 @@ Enquanto o app não estiver na Play Store:
 
 1. Na TV, instale o app **Downloader** (pela Play Store).
 2. Em **Configurações → Apps → Segurança e restrições → Fontes desconhecidas**, permita o Downloader.
-3. Abra o Downloader e digite o link do APK, que fica na página de **Releases** do projeto no GitHub.
+3. Abra o Downloader e digite o endereço abaixo, que sempre aponta para a versão mais recente:
+   ```
+   github.com/WillxRv/sintoniza/releases/latest/download/sintoniza.apk
+   ```
 4. Instale.
 
 ## 2. Configure o app
