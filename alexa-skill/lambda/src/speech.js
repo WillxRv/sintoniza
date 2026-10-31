@@ -19,6 +19,8 @@ module.exports = {
   codeNotFound: 'Não encontrei esse código. Confira o código na TV e fale de novo, número por número.',
   codeExpired: 'Esse código expirou. Abra o app Sintoniza na TV para gerar um novo e tente de novo.',
   paired: 'Pronto! Sua TV está pareada. Experimente dizer: pede pro Sintoniza abrir o YouTube.',
+  confirmUnpair: 'Tem certeza que quer desparear a TV? Ela vai parar de receber comandos desta Alexa. Diga sim ou não.',
+  keptPaired: 'Ok, a TV continua pareada.',
   unpaired: 'Pronto, esqueci sua TV. Para parear de novo, é só falar o código que aparece no app.',
   wasNotPaired: 'Não tem nenhuma TV pareada com esta Alexa.',
   notPaired:

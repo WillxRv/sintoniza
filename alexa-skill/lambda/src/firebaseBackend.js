@@ -91,10 +91,21 @@ function createFirebaseBackend({ credentialsPath } = {}) {
 
     /** @returns {Promise<boolean>} se havia TV pareada */
     async unpair(userId) {
+      const { db, FieldValue } = getServices();
       const ref = linkRef(userId);
-      const existed = (await ref.get()).exists;
-      if (existed) await ref.delete();
-      return existed;
+      const link = await ref.get();
+      if (!link.exists) return false;
+      await ref.delete();
+
+      // Era a última Alexa desta TV: tira o "Pareado" da tela e faz o app voltar a mostrar o código.
+      const uid = link.get('uid');
+      const others = await db.collection('links').where('uid', '==', uid).limit(1).get();
+      if (others.empty) {
+        await db.collection('devices').doc(uid)
+          .update({ pairedAt: FieldValue.delete() })
+          .catch((err) => console.warn('Não limpei pairedAt de', uid, err.code));
+      }
+      return true;
     },
 
     async sendCommand(userId, command) {

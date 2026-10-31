@@ -8,13 +8,14 @@
         { "name": "AMAZON.StopIntent", "samples": [] },
         { "name": "AMAZON.NavigateHomeIntent", "samples": [] },
         { "name": "AMAZON.FallbackIntent", "samples": [] },
+        { "name": "AMAZON.YesIntent", "samples": [] },
+        { "name": "AMAZON.NoIntent", "samples": [] },
         {
           "name": "PairIntent",
           "slots": [{ "name": "code", "type": "AMAZON.NUMBER" }],
           "samples": [
             "parear",
-            "parear a tv",
-            "conectar a tv",
+            "fazer o pareamento",
             "parear com o código {code}",
             "parear o código {code}",
             "parear código {code}",
@@ -28,10 +29,10 @@
           "name": "UnpairIntent",
           "samples": [
             "desparear",
-            "desparear a tv",
-            "desconectar a tv",
-            "esquecer a tv",
-            "esquecer minha tv"
+            "desparear o sintoniza",
+            "remover o pareamento",
+            "apagar o pareamento",
+            "cancelar o pareamento"
           ]
         },
         {
@@ -210,6 +211,13 @@
             { "id": "kodi", "name": { "value": "kodi" } },
             { "id": "vlc", "name": { "value": "vlc", "synonyms": ["vê éle cê"] } },
             { "id": "stremio", "name": { "value": "stremio" } },
+            { "id": "unitv", "name": { "value": "unitv", "synonyms": ["uni tv", "unitv iptv", "iuni tv", "unity", "unity tv", "uni tevê"] } },
+            { "id": "claro_tv", "name": { "value": "claro tv", "synonyms": ["claro tv mais", "claro tv +", "claro"] } },
+            { "id": "sky_plus", "name": { "value": "sky mais", "synonyms": ["sky", "sky +", "sky plus"] } },
+            { "id": "vivo_play", "name": { "value": "vivo play", "synonyms": ["vivo"] } },
+            { "id": "telecine", "name": { "value": "telecine", "synonyms": ["tele cine", "telecine play"] } },
+            { "id": "tubi", "name": { "value": "tubi", "synonyms": ["tubi tv"] } },
+            { "id": "amazon_music", "name": { "value": "amazon music", "synonyms": ["música da amazon"] } },
             { "id": "play_store", "name": { "value": "play store", "synonyms": ["loja", "google play", "loja de aplicativos"] } },
             { "id": "settings", "name": { "value": "configurações", "synonyms": ["ajustes", "configuração"] } }
           ]

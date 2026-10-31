@@ -19,6 +19,10 @@ function userId(h) {
   return Alexa.getUserId(h.requestEnvelope);
 }
 
+function pendingUnpair(h) {
+  return h.attributesManager.getSessionAttributes().confirmUnpair === true;
+}
+
 /**
  * "Alexa, pede pro Sintoniza pausar" chega com sessão nova: responde e encerra.
  * Depois de "Alexa, abrir Sintoniza" a sessão fica aberta para comandos em sequência
@@ -109,11 +113,28 @@ function createHandlers(backend) {
       },
     },
 
+    // Desparear é destrutivo e a Alexa às vezes confunde frases ("abrir o unitv"),
+    // então sempre confirma antes.
     {
       canHandle: (h) => isIntent(h, 'UnpairIntent'),
+      handle(h) {
+        h.attributesManager.setSessionAttributes({ confirmUnpair: true });
+        return ask(h, S.confirmUnpair);
+      },
+    },
+    {
+      canHandle: (h) => isIntent(h, 'AMAZON.YesIntent') && pendingUnpair(h),
       async handle(h) {
+        h.attributesManager.setSessionAttributes({});
         const existed = await backend.unpair(userId(h));
         return speak(h, existed ? S.unpaired : S.wasNotPaired);
+      },
+    },
+    {
+      canHandle: (h) => isIntent(h, 'AMAZON.NoIntent') && pendingUnpair(h),
+      handle(h) {
+        h.attributesManager.setSessionAttributes({});
+        return speak(h, S.keptPaired);
       },
     },
 
@@ -168,7 +189,8 @@ function createHandlers(backend) {
       handle: (h) => speak(h, S.bye),
     },
     {
-      canHandle: (h) => isIntent(h, 'AMAZON.FallbackIntent'),
+      // "Sim"/"não" fora de uma confirmação pendente.
+      canHandle: (h) => isIntent(h, 'AMAZON.FallbackIntent', 'AMAZON.YesIntent', 'AMAZON.NoIntent'),
       handle: (h) => ask(h, S.fallback, S.reprompt),
     },
     {

@@ -180,10 +180,38 @@ test('abrir a skill sem TV pareada explica o pareamento', async () => {
   assert.equal(res.ended, false);
 });
 
-test('desparear', async () => {
+function withAttributes(env, attributes) {
+  env.session.attributes = attributes;
+  return env;
+}
+
+test('desparear pede confirmação e não apaga nada antes do sim', async () => {
   const backend = fakeBackend();
-  assert.match((await run(backend, intent('UnpairIntent'))).speech, /esqueci sua TV/);
-  assert.match((await run(backend, intent('UnpairIntent'))).speech, /Não tem nenhuma TV/);
+  const { response } = await buildSkill(backend).create().invoke(intent('UnpairIntent'));
+  assert.match(response.outputSpeech.ssml, /Tem certeza/);
+  assert.notEqual(response.shouldEndSession, true);
+  assert.equal(backend.paired, true);
+});
+
+test('desparear: sim confirma, não cancela', async () => {
+  const backend = fakeBackend();
+  const no = await run(backend, withAttributes(intent('AMAZON.NoIntent', {}, { newSession: false }), { confirmUnpair: true }));
+  assert.match(no.speech, /continua pareada/);
+  assert.equal(backend.paired, true);
+
+  const yes = await run(backend, withAttributes(intent('AMAZON.YesIntent', {}, { newSession: false }), { confirmUnpair: true }));
+  assert.match(yes.speech, /esqueci sua TV/);
+  assert.equal(backend.paired, false);
+
+  const again = await run(backend, withAttributes(intent('AMAZON.YesIntent', {}, { newSession: false }), { confirmUnpair: true }));
+  assert.match(again.speech, /Não tem nenhuma TV/);
+});
+
+test('"sim" solto, sem confirmação pendente, não despareia', async () => {
+  const backend = fakeBackend();
+  const res = await run(backend, intent('AMAZON.YesIntent', {}, { newSession: false }));
+  assert.match(res.speech, /Não entendi/);
+  assert.equal(backend.paired, true);
 });
 
 test('erro inesperado do backend vira mensagem amigável', async () => {
