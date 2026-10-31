@@ -9,6 +9,7 @@ import android.provider.Settings
 import android.util.Log
 import android.view.KeyEvent
 import app.sintoniza.adb.LocalAdb
+import app.sintoniza.media.MediaSessions
 import kotlin.math.roundToInt
 
 /** Executa um [Command] no aparelho. Bloqueante: chame fora da main thread. */
@@ -16,6 +17,7 @@ class CommandExecutor(
     private val context: Context,
     private val adb: LocalAdb = LocalAdb(context),
     private val launcher: AppLauncher = AppLauncher(context),
+    private val media: MediaSessions = MediaSessions(context),
 ) {
     private val audio = context.getSystemService(AudioManager::class.java)
     private val power = context.getSystemService(PowerManager::class.java)
@@ -43,7 +45,11 @@ class CommandExecutor(
                 startActivity(intent)
             }
 
-            is Command.Media -> sendMediaKey(command.action.keyCode)
+            is Command.Media -> when (command.action) {
+                MediaAction.FAST_FORWARD -> seek(SEEK_STEP_MS, command.action.keyCode)
+                MediaAction.REWIND -> seek(-SEEK_STEP_MS, command.action.keyCode)
+                else -> sendMediaKey(command.action.keyCode)
+            }
             is Command.Volume -> changeVolume(command)
             is Command.Key -> pressKey(command.key, command.times)
         }
@@ -57,6 +63,14 @@ class CommandExecutor(
             adb.startActivity(intent).onSuccess { return }.onFailure { Log.w(TAG, "am start falhou", it) }
         }
         context.startActivity(intent)
+    }
+
+    /** Pula pela sessão de mídia; sem acesso, tenta concedê-lo via ADB; por fim, a tecla. */
+    private fun seek(deltaMs: Long, fallbackKeyCode: Int) {
+        if (media.seekBy(deltaMs)) return
+        if (!media.hasAccess && adb.isEnabled && adb.grantMediaAccess().isSuccess && media.seekBy(deltaMs)) return
+        Log.w(TAG, "Sem sessão de mídia para pular; enviando tecla")
+        sendMediaKey(fallbackKeyCode)
     }
 
     private fun sendMediaKey(keyCode: Int) {
@@ -113,5 +127,6 @@ class CommandExecutor(
     private companion object {
         const val TAG = "Sintoniza"
         const val WAKE_TIMEOUT_MS = 3_000L
+        const val SEEK_STEP_MS = 15_000L
     }
 }

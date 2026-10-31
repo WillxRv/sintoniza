@@ -2,6 +2,7 @@ package app.sintoniza.adb
 
 import android.content.Context
 import android.content.Intent
+import app.sintoniza.media.MediaAccessService
 import dadb.AdbKeyPair
 import dadb.Dadb
 import java.io.File
@@ -46,8 +47,15 @@ class LocalAdb(private val context: Context) {
      */
     fun enable(): Result<Unit> =
         shell("appops set ${context.packageName} SYSTEM_ALERT_WINDOW allow")
-            .map { isEnabled = true }
+            .map {
+                grantMediaAccess()
+                isEnabled = true
+            }
             .onFailure { isEnabled = false }
+
+    /** Acesso às sessões de mídia (ver MediaSessions). TVs costumam não ter essa tela nas configurações. */
+    fun grantMediaAccess(): Result<String> =
+        shell("cmd notification allow_listener ${context.packageName}/${MediaAccessService::class.java.name}")
 
     fun disable() {
         isEnabled = false

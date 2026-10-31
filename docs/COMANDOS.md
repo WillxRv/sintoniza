@@ -8,7 +8,9 @@ Use **"Alexa, pede pro Sintoniza …"** para um comando só, ou **"Alexa, abrir 
 
 Apps conhecidos: YouTube, YouTube Kids, YouTube Music, Netflix, Prime Video, Disney+, Max, Globoplay, Paramount+, Apple TV, Spotify, Deezer, Twitch, Pluto TV, Crunchyroll, Plex, Kodi, VLC, Stremio, Play Store e Configurações.
 
-Outros apps também funcionam: o Sintoniza procura pelo nome que aparece na tela inicial da TV ("abrir o Claro tv").
+Outros apps também funcionam: o Sintoniza procura pelo nome que aparece na tela inicial da TV ("abrir o Claro tv"). Use o nome **como aparece no launcher**: alguns apps têm nome diferente da marca.
+
+Apps **desativados** nas configurações da TV não abrem. Um app do catálogo nunca é trocado por outro (pedir YouTube Music não abre o YouTube).
 
 ## YouTube
 
@@ -22,8 +24,10 @@ Outros apps também funcionam: o Sintoniza procura pelo nome que aparece na tela
 | "continuar", "dar play" | Continua |
 | "próximo", "pular" | Próximo |
 | "anterior" | Anterior |
-| "avançar", "adiantar" | Avança |
-| "retroceder", "voltar um pouco" | Volta |
+| "avançar", "adiantar" | Avança 15 s |
+| "retroceder", "voltar um pouco" | Volta 15 s |
+
+Avançar e retroceder controlam direto a sessão de mídia do app que está tocando (o YouTube ignora as teclas de avanço). Isso usa um acesso que o controle avançado concede sozinho; sem ele, o Sintoniza envia a tecla e depende do app aceitar.
 
 ## Volume
 
