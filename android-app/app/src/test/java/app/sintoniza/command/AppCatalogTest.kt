@@ -39,6 +39,14 @@ class AppCatalogTest {
     }
 
     @Test
+    fun `app do catalogo nao e trocado por outro do catalogo`() {
+        val others = AppCatalog.packagesExcept("youtube_music")
+        val candidates = installed.filter { it.packageName !in others }
+        // YouTube Music não está instalado: não pode cair no YouTube comum.
+        assertNull(AppCatalog.bestMatch("YouTube Music", candidates))
+    }
+
+    @Test
     fun `sem correspondencia devolve null`() {
         assertNull(AppCatalog.bestMatch("spotify", installed))
         assertNull(AppCatalog.bestMatch("a", installed))

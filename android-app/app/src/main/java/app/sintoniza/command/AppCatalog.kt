@@ -33,6 +33,14 @@ object AppCatalog {
         KnownApp("kodi", listOf("org.xbmc.kodi"), listOf("Kodi")),
         KnownApp("vlc", listOf("org.videolan.vlc"), listOf("VLC")),
         KnownApp("stremio", listOf("com.stremio.one"), listOf("Stremio")),
+        KnownApp("unitv", listOf("com.global.unitviptv"), listOf("UniTV")),
+        // Sem pacote confirmado: encontrados pelo nome no launcher.
+        KnownApp("claro_tv", emptyList(), listOf("Claro tv+", "Claro TV")),
+        KnownApp("sky_plus", emptyList(), listOf("SKY+", "SKY")),
+        KnownApp("vivo_play", emptyList(), listOf("Vivo Play")),
+        KnownApp("telecine", emptyList(), listOf("Telecine")),
+        KnownApp("tubi", listOf("com.tubitv"), listOf("Tubi")),
+        KnownApp("amazon_music", emptyList(), listOf("Amazon Music")),
         KnownApp("play_store", listOf("com.android.vending"), listOf("Google Play Store", "Play Store")),
     )
 
@@ -40,6 +48,10 @@ object AppCatalog {
     const val YOUTUBE_ID = "youtube"
 
     fun byId(id: String?): KnownApp? = known.firstOrNull { it.id == id }
+
+    /** Pacotes de todos os apps do catálogo, menos o [id] pedido. */
+    fun packagesExcept(id: String): Set<String> =
+        known.filter { it.id != id }.flatMap { it.packages }.toSet()
 
     /** "Disney+" -> "disney", "Globo Play" -> "globoplay", "Configurações" -> "configuracoes". */
     fun normalize(text: String): String =

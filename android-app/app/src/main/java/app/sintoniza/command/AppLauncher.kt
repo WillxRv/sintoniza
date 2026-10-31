@@ -19,7 +19,9 @@ class AppLauncher(private val context: Context) {
         known?.packages?.firstNotNullOfOrNull(::launchIntentFor)?.let { return it }
 
         // Pacote desconhecido ou diferente nesta TV: procura pelo nome no launcher.
-        val installed = installedApps()
+        // Nunca troca um app do catálogo por outro (YouTube Music desativado não pode abrir o YouTube).
+        val otherKnownPackages = known?.let { AppCatalog.packagesExcept(it.id) }.orEmpty()
+        val installed = installedApps().filter { it.packageName !in otherKnownPackages }
         val names = known?.labels.orEmpty() + listOfNotNull(spokenName)
         return names.firstNotNullOfOrNull { AppCatalog.bestMatch(it, installed) }
             ?.let { launchIntentFor(it.packageName) }
