@@ -37,6 +37,13 @@ class MediaSessions(private val context: Context) {
         return true
     }
 
+    /** Pacotes com sessão de mídia, ou null sem acesso a notificações. */
+    fun packagesWithSession(): Set<String>? = try {
+        manager.getActiveSessions(listener).map { it.packageName }.toSet()
+    } catch (_: SecurityException) {
+        null
+    }
+
     private fun active(): MediaController? = try {
         manager.getActiveSessions(listener).firstOrNull { it.playbackState?.state in SEEKABLE_STATES }
     } catch (_: SecurityException) {

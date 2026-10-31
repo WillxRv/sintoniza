@@ -37,6 +37,11 @@ class LocalAdb(private val context: Context) {
     fun pressKeys(keyCode: Int, times: Int): Result<String> =
         shell("input keyevent " + List(times) { keyCode }.joinToString(" "))
 
+    /** Pacote do app em primeiro plano, ou null se não der para saber. */
+    fun foregroundPackage(): String? =
+        shell("dumpsys activity activities | grep -m1 mResumedActivity").getOrNull()
+            ?.let { Regex(""" u\d+ ([\w.]+)/""").find(it)?.groupValues?.get(1) }
+
     /** Abre uma Activity pelo ADB, que não sofre o bloqueio de abrir telas em segundo plano. */
     fun startActivity(intent: Intent): Result<String> =
         shell("am start " + quote(intent.toUri(Intent.URI_INTENT_SCHEME)))

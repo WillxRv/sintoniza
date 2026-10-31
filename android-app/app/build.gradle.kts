@@ -28,8 +28,8 @@ android {
         applicationId = "app.sintoniza"
         minSdk = 28 // Android 9 (Mi TV Stick original)
         targetSdk = 36
-        versionCode = 2
-        versionName = "1.0.0"
+        versionCode = 3
+        versionName = "1.0.1"
 
         buildConfigField("String", "FIREBASE_PROJECT_ID", firebaseField("projectId"))
         buildConfigField("String", "FIREBASE_APPLICATION_ID", firebaseField("applicationId"))

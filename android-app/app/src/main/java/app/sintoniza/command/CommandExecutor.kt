@@ -48,7 +48,7 @@ class CommandExecutor(
             is Command.Media -> when (command.action) {
                 MediaAction.FAST_FORWARD -> seek(SEEK_STEP_MS, command.action.keyCode)
                 MediaAction.REWIND -> seek(-SEEK_STEP_MS, command.action.keyCode)
-                else -> sendMediaKey(command.action.keyCode)
+                else -> sendPlaybackKey(command.action)
             }
             is Command.Volume -> changeVolume(command)
             is Command.Key -> pressKey(command.key, command.times)
@@ -63,6 +63,24 @@ class CommandExecutor(
             adb.startActivity(intent).onSuccess { return }.onFailure { Log.w(TAG, "am start falhou", it) }
         }
         context.startActivity(intent)
+    }
+
+    /**
+     * Apps com sessão de mídia (YouTube, Netflix) recebem a tecla exata pela sessão.
+     * Apps sem sessão (players de IPTV como o UniTV) só reagem à tecla na tela, e muitos
+     * só entendem Play/Pause alternado; então o app em primeiro plano recebe a tecla pelo ADB.
+     */
+    private fun sendPlaybackKey(action: MediaAction) {
+        val foreground = if (adb.isEnabled) adb.foregroundPackage() else null
+        val withSession = media.packagesWithSession()
+        if (foreground != null && withSession != null && foreground !in withSession) {
+            val keyCode = when (action) {
+                MediaAction.PLAY, MediaAction.PAUSE -> KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE
+                else -> action.keyCode
+            }
+            adb.pressKeys(keyCode, 1).onSuccess { return }.onFailure { Log.w(TAG, "Tecla de mídia pelo ADB falhou", it) }
+        }
+        sendMediaKey(action.keyCode)
     }
 
     /** Pula pela sessão de mídia; sem acesso, tenta concedê-lo via ADB; por fim, a tecla. */
