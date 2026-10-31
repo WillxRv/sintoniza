@@ -26,6 +26,8 @@ Apps **desativados** nas configurações da TV não abrem. Um app do catálogo n
 | "anterior" | Anterior |
 | "avançar", "adiantar" | Avança 15 s |
 | "retroceder", "voltar um pouco" | Volta 15 s |
+| "avançar 5 minutos", "pular 1 minuto e 30 segundos" | Avança o tempo falado |
+| "voltar 30 segundos", "retroceder 2 minutos" | Volta o tempo falado |
 
 **Apps de IPTV (UniTV e parecidos):** eles não publicam sessão de mídia, então, com o controle avançado ativo, o Sintoniza manda a tecla Play/Pause direto para a tela. Muitos desses apps só entendem a tecla **alternada**: nesses, "pausar" com o vídeo já pausado faz ele voltar a tocar. No YouTube, na Netflix e em apps parecidos, "pausar" e "continuar" são exatos.
 

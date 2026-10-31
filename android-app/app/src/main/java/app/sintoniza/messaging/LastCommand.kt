@@ -24,7 +24,7 @@ object LastCommand {
     fun describe(command: Command): String = when (command) {
         is Command.OpenApp -> "abrir ${command.spokenName ?: command.appId}"
         is Command.YouTubeSearch -> "procurar \"${command.query}\" no YouTube"
-        is Command.Media -> "mídia: ${command.action.wire}"
+        is Command.Media -> "mídia: ${command.action.wire}" + (command.seconds?.let { " ${it}s" } ?: "")
         is Command.Volume -> when (command.action.wire) {
             "set" -> "volume em ${command.level}%"
             "up", "down" -> "volume ${command.action.wire} ${command.percent}%"

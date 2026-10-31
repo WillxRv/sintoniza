@@ -9,6 +9,16 @@ function escape(text) {
     .replace(/"/g, '&quot;');
 }
 
+/** 90 → "1 minuto e 30 segundos", 3600 → "1 hora". */
+function spokenDuration(totalSeconds) {
+  const h = Math.floor(totalSeconds / 3600);
+  const m = Math.floor((totalSeconds % 3600) / 60);
+  const s = totalSeconds % 60;
+  const part = (n, one, many) => (n ? [`${n} ${n === 1 ? one : many}`] : []);
+  const parts = [...part(h, 'hora', 'horas'), ...part(m, 'minuto', 'minutos'), ...part(s, 'segundo', 'segundos')];
+  return parts.length > 1 ? `${parts.slice(0, -1).join(', ')} e ${parts[parts.length - 1]}` : parts[0];
+}
+
 module.exports = {
   reprompt: 'Mais alguma coisa?',
   welcomePaired: 'Sintoniza pronto. O que você quer fazer na TV?',
@@ -35,6 +45,8 @@ module.exports = {
   opening: (name) => `Abrindo ${escape(name)}.`,
   searching: (query) => `Procurando ${escape(query)} no YouTube.`,
   volumeSet: (level) => `Volume em ${level}.`,
+  whichDuration: 'Quanto tempo? Por exemplo: avançar cinco minutos, ou voltar trinta segundos.',
+  seeking: (forward, seconds) => `${forward ? 'Avançando' : 'Voltando'} ${spokenDuration(seconds)}.`,
   help:
     'Você pode pedir para abrir um aplicativo, como o YouTube ou a Netflix, pausar, continuar, ' +
     'aumentar ou abaixar o volume, procurar algo no YouTube, ou navegar dizendo cima, baixo, ok e voltar. ' +

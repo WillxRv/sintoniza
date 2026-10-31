@@ -27,7 +27,7 @@ O APK de release (assinado e otimizado, cerca de 4 MB) é gerado com:
 Ele sai em `android-app/app/build/outputs/apk/release/app-release.apk`.
 
 1. No GitHub, vá em **Releases → Draft a new release**.
-2. **Tag:** `v1.0.1`. **Título:** `Sintoniza 1.0.1`.
+2. **Tag:** `v1.0.2`. **Título:** `Sintoniza 1.0.2`.
 3. Anexe o APK **renomeado para `sintoniza.apk`**. O nome importa: o link abaixo sempre aponta para a versão mais recente.
 4. Clique em **Publish release**.
 

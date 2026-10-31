@@ -46,8 +46,8 @@ class CommandExecutor(
             }
 
             is Command.Media -> when (command.action) {
-                MediaAction.FAST_FORWARD -> seek(SEEK_STEP_MS, command.action.keyCode)
-                MediaAction.REWIND -> seek(-SEEK_STEP_MS, command.action.keyCode)
+                MediaAction.FAST_FORWARD -> seek(seekStepMs(command), command.action.keyCode)
+                MediaAction.REWIND -> seek(-seekStepMs(command), command.action.keyCode)
                 else -> sendPlaybackKey(command.action)
             }
             is Command.Volume -> changeVolume(command)
@@ -82,6 +82,9 @@ class CommandExecutor(
         }
         sendMediaKey(action.keyCode)
     }
+
+    private fun seekStepMs(command: Command.Media): Long =
+        command.seconds?.let { it * 1000L } ?: SEEK_STEP_MS
 
     /** Pula pela sessão de mídia; sem acesso, tenta concedê-lo via ADB; por fim, a tecla. */
     private fun seek(deltaMs: Long, fallbackKeyCode: Int) {

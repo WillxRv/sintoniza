@@ -101,11 +101,22 @@
         },
         {
           "name": "FastForwardIntent",
-          "samples": ["avançar", "avança", "adiantar", "adianta", "avançar o vídeo", "adiantar o vídeo"]
+          "slots": [{ "name": "duration", "type": "AMAZON.DURATION" }],
+          "samples": [
+            "avançar", "avança", "adiantar", "adianta", "avançar o vídeo", "adiantar o vídeo",
+            "avançar {duration}", "avança {duration}", "adiantar {duration}", "adianta {duration}",
+            "avançar o vídeo {duration}", "pular {duration}", "pula {duration}",
+            "avançar mais {duration}", "ir {duration} para frente", "vai {duration} para frente"
+          ]
         },
         {
           "name": "RewindIntent",
-          "samples": ["retroceder", "retrocede", "voltar um pouco", "volta um pouco", "voltar o vídeo", "volta o vídeo"]
+          "slots": [{ "name": "duration", "type": "AMAZON.DURATION" }],
+          "samples": [
+            "retroceder", "retrocede", "voltar um pouco", "volta um pouco", "voltar o vídeo", "volta o vídeo",
+            "retroceder {duration}", "retrocede {duration}", "voltar {duration}", "volta {duration}",
+            "voltar o vídeo {duration}", "ir {duration} para trás", "vai {duration} para trás"
+          ]
         },
         {
           "name": "VolumeUpIntent",

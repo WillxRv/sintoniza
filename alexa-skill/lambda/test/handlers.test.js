@@ -225,3 +225,38 @@ test('erro inesperado do backend vira mensagem amigável', async () => {
     console.error = original;
   }
 });
+
+test('duração ISO 8601 vira segundos', () => {
+  const { parseDuration } = require('../src/commands');
+  assert.equal(parseDuration('PT5M'), 300);
+  assert.equal(parseDuration('PT30S'), 30);
+  assert.equal(parseDuration('PT1H30M'), 5400);
+  assert.equal(parseDuration('PT1M30S'), 90);
+  assert.equal(parseDuration('PT0.5M'), 30);
+  for (const invalid of ['P2D', 'PT', '?', '', null, 'PT0S', '5 minutos']) {
+    assert.equal(parseDuration(invalid), null, String(invalid));
+  }
+});
+
+test('avançar com tempo envia os segundos e fala por extenso', async () => {
+  const backend = fakeBackend();
+  const res = await run(backend, intent('FastForwardIntent', { duration: 'PT1M30S' }));
+  assert.deepEqual(backend.sent[0].command, { type: 'media', action: 'fast_forward', seconds: 90 });
+  assert.match(res.speech, /Avançando 1 minuto e 30 segundos/);
+});
+
+test('voltar com tempo e voltar sem tempo', async () => {
+  const backend = fakeBackend();
+  const res = await run(backend, intent('RewindIntent', { duration: 'PT5M' }));
+  await run(backend, intent('RewindIntent', { duration: undefined }));
+  assert.deepEqual(backend.sent[0].command, { type: 'media', action: 'rewind', seconds: 300 });
+  assert.deepEqual(backend.sent[1].command, { type: 'media', action: 'rewind' });
+  assert.match(res.speech, /Voltando 5 minutos/);
+});
+
+test('duração que não é tempo (ex.: dias) pergunta de novo', async () => {
+  const backend = fakeBackend();
+  const res = await run(backend, intent('FastForwardIntent', { duration: 'P2D' }));
+  assert.equal(backend.sent.length, 0);
+  assert.match(res.speech, /Quanto tempo/);
+});

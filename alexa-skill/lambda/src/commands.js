@@ -21,8 +21,29 @@ const openApp = (app, name) => ({ type: 'open_app', app: app || null, name: name
 
 const youtubeSearch = (query) => ({ type: 'youtube_search', query });
 
-/** action: play | pause | next | previous | fast_forward | rewind */
-const media = (action) => ({ type: 'media', action });
+const MAX_SEEK_SECONDS = 6 * 60 * 60;
+
+/**
+ * action: play | pause | next | previous | fast_forward | rewind
+ * seconds: só para fast_forward/rewind; omitido = padrão do app (15 s).
+ */
+function media(action, seconds) {
+  const command = { type: 'media', action };
+  if (seconds) command.seconds = Math.min(seconds, MAX_SEEK_SECONDS);
+  return command;
+}
+
+/**
+ * Converte a duração ISO 8601 do slot AMAZON.DURATION ("PT5M", "PT1H30M", "PT45S")
+ * em segundos. Devolve null se não for uma duração de tempo válida (ex.: "P2D", "?").
+ */
+function parseDuration(value) {
+  const match = /^PT(?:(\d+(?:\.\d+)?)H)?(?:(\d+(?:\.\d+)?)M)?(?:(\d+(?:\.\d+)?)S)?$/.exec(value || '');
+  if (!match || value === 'PT') return null;
+  const [, h = 0, m = 0, s = 0] = match;
+  const seconds = Math.round(Number(h) * 3600 + Number(m) * 60 + Number(s));
+  return seconds > 0 ? seconds : null;
+}
 
 /** Sobe/desce em pontos percentuais do volume máximo. */
 const volumeUp = (percent) => ({
@@ -57,6 +78,7 @@ module.exports = {
   openApp,
   youtubeSearch,
   media,
+  parseDuration,
   volumeUp,
   volumeDown,
   volumeSet,

@@ -61,6 +61,16 @@ function resolvedSlot(h, name) {
   return { id: null, name: slot.value, spoken: slot.value };
 }
 
+/** "avançar 5 minutos" → 300 s; "avançar" sem tempo → padrão do app. */
+function seekCommand(h, action) {
+  const spoken = slotValue(h, 'duration');
+  const seconds = commands.parseDuration(spoken);
+  if (spoken && !seconds) return { ask: S.whichDuration };
+  const command = commands.media(action, seconds);
+  const speech = seconds ? S.seeking(action === 'fast_forward', command.seconds) : S.ok;
+  return { command, speech };
+}
+
 async function sendAndRespond(h, backend, command, speech) {
   try {
     await backend.sendCommand(userId(h), command);
@@ -154,8 +164,8 @@ function createHandlers(backend) {
     commandHandler(backend, 'ResumeIntent', fixed(commands.media('play'))),
     commandHandler(backend, 'NextIntent', fixed(commands.media('next'))),
     commandHandler(backend, 'PreviousIntent', fixed(commands.media('previous'))),
-    commandHandler(backend, 'FastForwardIntent', fixed(commands.media('fast_forward'))),
-    commandHandler(backend, 'RewindIntent', fixed(commands.media('rewind'))),
+    commandHandler(backend, 'FastForwardIntent', (h) => seekCommand(h, 'fast_forward')),
+    commandHandler(backend, 'RewindIntent', (h) => seekCommand(h, 'rewind')),
 
     commandHandler(backend, 'VolumeUpIntent', (h) => ({
       command: commands.volumeUp(slotValue(h, 'steps')),

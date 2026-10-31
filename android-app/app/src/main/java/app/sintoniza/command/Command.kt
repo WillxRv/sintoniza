@@ -12,7 +12,8 @@ sealed interface Command {
 
     data class YouTubeSearch(val query: String) : Command
 
-    data class Media(val action: MediaAction) : Command
+    /** [seconds]: só para avançar/retroceder; null = padrão do app. */
+    data class Media(val action: MediaAction, val seconds: Int? = null) : Command
 
     /** [percent] para UP/DOWN, [level] (0–100) para SET. */
     data class Volume(val action: VolumeAction, val percent: Int = 0, val level: Int = 0) : Command
@@ -52,6 +53,7 @@ data class CommandEnvelope(val version: Int, val id: String, val sentAt: Long, v
 object CommandParser {
     const val PROTOCOL_VERSION = 1
     private const val MAX_KEY_REPEAT = 10
+    private const val MAX_SEEK_SECONDS = 6 * 60 * 60
 
     /** @throws IllegalArgumentException se o JSON não for um comando válido desta versão. */
     fun parse(json: String): CommandEnvelope {
@@ -72,7 +74,10 @@ object CommandParser {
                 obj.optStringOrNull("query") ?: throw IllegalArgumentException("youtube_search sem query"),
             )
 
-            "media" -> Command.Media(enumByWire(obj.optString("action"), MediaAction.entries) { it.wire })
+            "media" -> Command.Media(
+                action = enumByWire(obj.optString("action"), MediaAction.entries) { it.wire },
+                seconds = obj.optInt("seconds", 0).takeIf { it > 0 }?.coerceAtMost(MAX_SEEK_SECONDS),
+            )
 
             "volume" -> Command.Volume(
                 action = enumByWire(obj.optString("action"), VolumeAction.entries) { it.wire },

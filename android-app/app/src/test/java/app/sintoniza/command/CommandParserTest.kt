@@ -40,6 +40,16 @@ class CommandParserTest {
     }
 
     @Test
+    fun `avancar com segundos e sem segundos`() {
+        assertEquals(
+            Command.Media(MediaAction.FAST_FORWARD, seconds = 300),
+            parse("""{"v":1,"type":"media","action":"fast_forward","seconds":300}"""),
+        )
+        assertEquals(Command.Media(MediaAction.REWIND, seconds = null), parse("""{"v":1,"type":"media","action":"rewind"}"""))
+        assertEquals(Command.Media(MediaAction.REWIND, seconds = null), parse("""{"v":1,"type":"media","action":"rewind","seconds":-5}"""))
+    }
+
+    @Test
     fun `envelope preserva id e horario`() {
         val envelope = CommandParser.parse("""{"v":1,"id":"abc","sentAt":123,"type":"media","action":"pause"}""")
         assertEquals("abc", envelope.id)
